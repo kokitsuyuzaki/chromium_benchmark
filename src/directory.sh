@@ -13,4 +13,3 @@ mkdir -p plot
 mkdir -p tool
 mkdir -p tool/alevin
 mkdir -p tool/cellranger
-mkdir -p tool/kallisto_bustools
