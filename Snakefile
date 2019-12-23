@@ -1,5 +1,8 @@
 HOME = '/home/koki/Dev/chromium_benchmark/'
 
+rule directory:
+    shell: HOME + 'src/directory.sh'
+
 rule install:
     shell: HOME + 'src/install.sh'
 
