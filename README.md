@@ -15,6 +15,6 @@ snakemake
 ```
 
 # Reference
-https://support.10xgenomics.com/single-cell-gene-expression/software/downloads/latest?
-https://salmon.readthedocs.io/en/latest/salmon.html
-https://salmon.readthedocs.io/en/latest/alevin.html
+- https://support.10xgenomics.com/single-cell-gene-expression/software/downloads/latest?
+- https://salmon.readthedocs.io/en/latest/salmon.html
+- https://salmon.readthedocs.io/en/latest/alevin.html
