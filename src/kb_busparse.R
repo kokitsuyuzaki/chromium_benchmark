@@ -7,14 +7,9 @@ res_kb <- read_count_output(
 res_kb_10xwhitelist <- read_count_output(
     "./output/kb_10xwhitelist/counts_unfiltered",
     name = "cells_x_genes", tcc = FALSE)
-res_kb_filteredlist <- read_count_output(
-    "./output/kb_filteredlist/counts_unfiltered",
+res_kb_filteredwhitelist <- read_count_output(
+    "./output/kb_filteredwhitelist/counts_unfiltered",
     name = "cells_x_genes", tcc = FALSE)
-
-
-# Filtering
-# ...
-
 
 # Data saving
 save(res_kb, file="output/kb/kb.RData")

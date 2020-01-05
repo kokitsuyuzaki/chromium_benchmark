@@ -1,7 +1,9 @@
 data/*
-tool/*
+tools/*
 output/*
 plot/*
+logs/*
 *.sh.*
 .python*
 .fuse*
+.snakemake*

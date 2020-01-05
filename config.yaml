@@ -1,0 +1,57 @@
+# Data and Tools
+CELLRANGER: 'tools/cellranger/cellranger-3.1.0/cellranger'
+SALMON: 'tools/alevin/salmon-latest_linux_x86_64/bin/salmon'
+KB: '/home/koki/.pyenv/shims/kb'
+GENOME: 'data/refdata-cellranger-GRCh38-3.0.0/fasta/genome.fa'
+TRANSCRIPTOME: 'data/gencode.v32.pc_transcripts.fa.gz'
+ANNOTATION: 'data/gencode.v32.primary_assembly.annotation.gtf.gz'
+FASTQ: 'data/5k_pbmc_protein_v3_fastqs/5k_pbmc_protein_v3_gex_fastqs/5k_pbmc_protein_v3_gex_S1_L001_R1_001.fastq.gz'
+T2G_ALEVIN: 'data/txp2gene.tsv'
+RPKG1: /home/koki/Software/R-3.6.0/library/BiocManager/DESCRIPTION
+RPKG2: /home/koki/Software/R-3.6.0/library/Seurat/DESCRIPTION
+RPKG3: /home/koki/Software/R-3.6.0/library/VennDiagram/DESCRIPTION
+RPKG4: /home/koki/Software/R-3.6.0/library/tximport/DESCRIPTION
+RPKG5: /home/koki/Software/R-3.6.0/library/BUSpaRse/DESCRIPTION
+RPKG6: /home/koki/Software/R-3.6.0/library/fishpond/DESCRIPTION
+RPKG7: /home/koki/Software/R-3.6.0/library/DropletUtils/DESCRIPTION
+RPKG8: /home/koki/Software/R-3.6.0/library/ggplot2/DESCRIPTION
+
+# White list
+TENX_WHITELIST: 'data/10xv3_whitelist.txt'
+FILTERED_WHITELIST: 'data/filteredwhitelist.txt'
+
+# Outputs of CellRanger
+OUT_CELLRANGER: 'output/cellranger/5k_pbmc/outs/filtered_feature_bc_matrix/barcodes.tsv.gz'
+ROUT_CELLRANGER: 'output/cellranger/cellranger.RData'
+
+# Outputs of Alevin
+SALMON_INDEX: 'data/salmon_index/mphf.bin'
+OUT_ALEVIN: 'output/alevin/alevin/quants_mat.gz'
+OUT_ALEVIN_10X: 'output/alevin_10xwhitelist/alevin/quants_mat.gz'
+OUT_ALEVIN_FILTERED: 'output/alevin_filteredwhitelist/alevin/quants_mat.gz'
+
+ROUT_ALEVIN: 'output/alevin/alevin.RData'
+ROUT_ALEVIN_TENX: 'output/alevin_10xwhitelist/alevin_10xwhitelist.RData'
+ROUT_ALEVIN_FILTERED: 'output/alevin_filteredwhitelist/alevin_filteredwhitelist.RData'
+
+# Outputs of Kallisto | Bustools
+KALLISTO_INDEX: 'data/kallisto_index'
+T2G_KALLISTO: 'data/transcripts_to_genes.txt'
+OUT_KALLISTO: 'output/kb/counts_unfiltered/cells_x_genes.mtx'
+OUT_KALLISTO_TENX: 'output/kb_10xwhitelist/counts_unfiltered/cells_x_genes.mtx'
+OUT_KALLISTO_FILTERED: 'output/kb_filteredwhitelist/counts_unfiltered/cells_x_genes.mtx'
+
+ROUT_KALLISTO: 'output/kb/kb.RData'
+ROUT_KALLISTO_TENX: 'output/kb_10xwhitelist/kb_10xwhitelist.RData'
+ROUT_KALLISTO_FILTERED: 'output/kb_filteredwhitelist/kb_filteredwhitelist.RData'
+
+# Time
+OUT_TIME: 'output/time.txt'
+
+# Memory
+OUT_MEMORY: 'output/memory.txt'
+
+# PLOT
+FINALPLOT: 'plot/DetectedGenes_Common_CCB.png'
+TIMEPLOT: 'plot/Time.png'
+MEMORYPLOT: 'plot/Memory.png'

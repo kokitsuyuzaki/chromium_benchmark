@@ -8,4 +8,4 @@
 #SBATCH --requeue
 #SBATCH -p node03-06
 
-/home/koki/Software/R-3.6.0/bin/Rscript src/seurat_cellranger.R
+/home/koki/Software/R-3.6.0/bin/Rscript src/summary.R
