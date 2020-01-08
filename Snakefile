@@ -9,42 +9,31 @@ configfile: "config.yaml"
 rule all:
     input:
         config["FINALPLOT"],
+        config["FINALPLOT2"],
         config["TIMEPLOT"],
         config["MEMORYPLOT"]
 
-rule install_cellranger:
-    output:
-        config["CELLRANGER"]
-    log:
-        'logs/install_cellranger.log'
-    shell:
-        '/usr/bin/time -v src/install_cellranger.sh >& {log}'
-
 rule tenxwhitelist:
-    input:
-        config["CELLRANGER"]
     output:
         config["TENX_WHITELIST"]
+    singularity:
+        'docker://sccloud/cellranger:3.1.0'
+    benchmark:
+        'benchmarks/tenxwhitelist.txt'
     log:
         'logs/tenxwhitelist.log'
     shell:
-        '/usr/bin/time -v src/tenxwhitelist.sh >& {log}'
-
-rule install_alevin:
-    output:
-        config["SALMON"]
-    log:
-        'logs/install_alevin.log'
-    shell:
-        '/usr/bin/time -v src/install_alevin.sh >& {log}'
+        'src/tenxwhitelist.sh >& {log}'
 
 rule install_kb:
     output:
         config["KB"]
+    benchmark:
+        'benchmarks/install_kb.txt'
     log:
         'logs/install_kb.log'
     shell:
-        '/usr/bin/time -v src/install_kb.sh >& {log}'
+        'src/install_kb.sh >& {log}'
 
 rule install_Rpkg:
     output:
@@ -55,44 +44,56 @@ rule install_Rpkg:
         config["RPKG5"],
         config["RPKG6"],
         config["RPKG7"],
-        config["RPKG8"]
+        config["RPKG8"],
+        config["RPKG9"]
+
+    benchmark:
+        'benchmarks/install_Rpkg.txt'
     log:
         'logs/install_Rpkg.log'
     shell:
-        '/usr/bin/time -v src/install_Rpkg.sh >& {log}'
+        'src/install_Rpkg.sh >& {log}'
 
 rule download_genome:
     output:
         config["GENOME"]
+    benchmark:
+        'benchmarks/download_genome.txt'
     log:
         'logs/download_genome.log'
     shell:
-        '/usr/bin/time -v src/download_genome.sh >& {log}'
+        'src/download_genome.sh >& {log}'
 
 rule download_transcriptome:
     output:
         config["TRANSCRIPTOME"]
+    benchmark:
+        'benchmarks/download_transcriptome.txt'
     log:
         'logs/download_transcriptome.log'
     shell:
-        '/usr/bin/time -v src/download_transcriptome.sh >& {log}'
+        'src/download_transcriptome.sh >& {log}'
 
 rule download_geneannotation:
     output:
         config["ANNOTATION"],
         config["T2G_ALEVIN"]
+    benchmark:
+        'benchmarks/download_geneannotation.txt'
     log:
         'logs/download_geneannotation.log'
     shell:
-        '/usr/bin/time -v src/download_geneannotation.sh >& {log}'
+        'src/download_geneannotation.sh >& {log}'
 
 rule download_fastq:
     output:
         config["FASTQ"]
+    benchmark:
+        'benchmarks/download_fastq.txt'
     log:
         'logs/download_fastq.log'
     shell:
-        '/usr/bin/time -v src/download_fastq.sh >& {log}'
+        'src/download_fastq.sh >& {log}'
 
 #
 # Workflow type I: CellRanger → Seurat
@@ -100,36 +101,43 @@ rule download_fastq:
 
 rule cellranger:
     input:
-        config["CELLRANGER"],
         config["GENOME"],
         config["FASTQ"]
     output:
         config["OUT_CELLRANGER"],
-        'logs/cellranger.log'
+        'benchmarks/cellranger.txt'
+    singularity:
+        'docker://sccloud/cellranger:3.1.0'
+    benchmark:
+        'benchmarks/cellranger.txt'
     log:
         'logs/cellranger.log'
     shell:
-        '/usr/bin/time -v src/cellranger.sh >& {log}'
+        'src/cellranger.sh >& {log}'
 
 rule filtered_whitelist:
     input:
         config["OUT_CELLRANGER"]
     output:
         config["FILTERED_WHITELIST"]
+    benchmark:
+        'benchmarks/filtered_whitelist.txt'
     log:
         'logs/filtered_whitelist.log'
     shell:
-        '/usr/bin/time -v src/filtered_whitelist.sh >& {log}'
+        'src/filtered_whitelist.sh >& {log}'
 
 rule cellranger_seurat:
     input:
         config["OUT_CELLRANGER"]
     output:
         config["ROUT_CELLRANGER"]
+    benchmark:
+        'benchmarks/cellranger_seurat.txt'
     log:
         'logs/cellranger_seurat.log'
     shell:
-        '/usr/bin/time -v src/cellranger_seurat.sh >& {log}'
+        'src/cellranger_seurat.sh >& {log}'
 
 
 #
@@ -138,59 +146,71 @@ rule cellranger_seurat:
 
 rule salmon_index:
     input:
-        config["SALMON"],
         config["TRANSCRIPTOME"]
     output:
         config["SALMON_INDEX"],
-        'logs/salmon_index.log'
+        'benchmarks/salmon_index.txt'
+    singularity:
+        'docker://combinelab/salmon:1.1.0'
+    benchmark:
+        'benchmarks/salmon_index.txt'
     log:
         'logs/salmon_index.log'
     shell:
-        '/usr/bin/time -v src/salmon_index.sh >& {log}'
+        'src/salmon_index.sh >& {log}'
 
 rule alevin:
     input:
-        config["SALMON"],
         config["SALMON_INDEX"],
         config["FASTQ"],
         config["T2G_ALEVIN"]
     output:
         config["OUT_ALEVIN"],
-        'logs/alevin.log'
+        'benchmarks/alevin.txt'
+    singularity:
+        'docker://combinelab/salmon:1.1.0'
+    benchmark:
+        'benchmarks/alevin.txt'
     log:
         'logs/alevin.log'
     shell:
-        '/usr/bin/time -v src/alevin.sh >& {log}'
+        'src/alevin.sh >& {log}'
 
 rule alevin_10xwhitelist:
     input:
-        config["SALMON"],
         config["SALMON_INDEX"],
         config["FASTQ"],
         config["T2G_ALEVIN"],
         config["TENX_WHITELIST"]
     output:
         config["OUT_ALEVIN_10X"],
-        'logs/alevin_10xwhitelist.log'
+        'benchmarks/alevin_10xwhitelist.txt'
+    singularity:
+        'docker://combinelab/salmon:1.1.0'
+    benchmark:
+        'benchmarks/alevin_10xwhitelist.txt'
     log:
         'logs/alevin_10xwhitelist.log'
     shell:
-        '/usr/bin/time -v src/alevin_10xwhitelist.sh >& {log}'
+        'src/alevin_10xwhitelist.sh >& {log}'
 
 rule alevin_filteredwhitelist:
     input:
-        config["SALMON"],
         config["SALMON_INDEX"],
         config["FASTQ"],
         config["T2G_ALEVIN"],
         config["FILTERED_WHITELIST"]
     output:
         config["OUT_ALEVIN_FILTERED"],
-        'logs/alevin_filteredwhitelist.log'
+        'benchmarks/alevin_filteredwhitelist.txt'
+    singularity:
+        'docker://combinelab/salmon:1.1.0'
+    benchmark:
+        'benchmarks/alevin_filteredwhitelist.txt'
     log:
         'logs/alevin_filteredwhitelist.log'
     shell:
-        '/usr/bin/time -v src/alevin_filteredwhitelist.sh >& {log}'
+        'src/alevin_filteredwhitelist.sh >& {log}'
 
 rule alevin_tximport:
     input:
@@ -204,15 +224,18 @@ rule alevin_tximport:
         config["RPKG5"],
         config["RPKG6"],
         config["RPKG7"],
-        config["RPKG8"]
+        config["RPKG8"],
+        config["RPKG9"]
     output:
         config["ROUT_ALEVIN"],
         config["ROUT_ALEVIN_TENX"],
         config["ROUT_ALEVIN_FILTERED"]
+    benchmark:
+        'benchmarks/alevin_tximport.txt'
     log:
         'logs/alevin_tximport.log'
     shell:
-        '/usr/bin/time -v src/alevin_tximport.sh >& {log}'
+        'src/alevin_tximport.sh >& {log}'
 
 
 #
@@ -225,11 +248,13 @@ rule kallisto_index:
     output:
         config["KALLISTO_INDEX"],
         config["T2G_KALLISTO"],
-        'logs/kallisto_index.log'
+        'benchmarks/kallisto_index.txt'
+    benchmark:
+        'benchmarks/kallisto_index.txt'
     log:
         'logs/kallisto_index.log'
     shell:
-        '/usr/bin/time -v src/kallisto_index.sh >& {log}'
+        'src/kallisto_index.sh >& {log}'
 
 rule kb:
     input:
@@ -238,11 +263,13 @@ rule kb:
         config["FASTQ"]
     output:
         config["OUT_KALLISTO"],
-        'logs/kb.log'
+        'benchmarks/kb.txt'
+    benchmark:
+        'benchmarks/kb.txt'
     log:
         'logs/kb.log'
     shell:
-        '/usr/bin/time -v src/kb.sh >& {log}'
+        'src/kb.sh >& {log}'
 
 rule kb_10xwhitelist:
     input:
@@ -252,11 +279,13 @@ rule kb_10xwhitelist:
         config["TENX_WHITELIST"]
     output:
         config["OUT_KALLISTO_TENX"],
-        'logs/kb_10xwhitelist.log'
+        'benchmarks/kb_10xwhitelist.txt'
+    benchmark:
+        'benchmarks/kb_10xwhitelist.txt'
     log:
         'logs/kb_10xwhitelist.log'
     shell:
-        '/usr/bin/time -v src/kb_10xwhitelist.sh >& {log}'
+        'src/kb_10xwhitelist.sh >& {log}'
 
 rule kb_filteredwhitelist:
     input:
@@ -266,11 +295,13 @@ rule kb_filteredwhitelist:
         config["FILTERED_WHITELIST"]
     output:
         config["OUT_KALLISTO_FILTERED"],
-        'logs/kb_filteredwhitelist.log'
+        'benchmarks/kb_filteredwhitelist.txt'
+    benchmark:
+        'benchmarks/kb_filteredwhitelist.txt'
     log:
         'logs/kb_filteredwhitelist.log'
     shell:
-        '/usr/bin/time -v src/kb_filteredwhitelist.sh >& {log}'
+        'src/kb_filteredwhitelist.sh >& {log}'
 
 rule kb_busparse:
     input:
@@ -284,15 +315,18 @@ rule kb_busparse:
         config["RPKG5"],
         config["RPKG6"],
         config["RPKG7"],
-        config["RPKG8"]
+        config["RPKG8"],
+        config["RPKG9"]
     output:
         config["ROUT_KALLISTO"],
         config["ROUT_KALLISTO_TENX"],
         config["ROUT_KALLISTO_FILTERED"]
+    benchmark:
+        'benchmarks/kb_busparse.txt'
     log:
         'logs/kb_busparse.log'
     shell:
-        '/usr/bin/time -v src/kb_busparse.sh >& {log}'
+        'src/kb_busparse.sh >& {log}'
 
 
 #
@@ -313,73 +347,129 @@ rule summary:
         config["RPKG4"],
         config["RPKG5"],
         config["RPKG6"],
-        config["RPKG7"],
-        config["RPKG8"]
+        config["RPKG8"],
+        config["RPKG9"]
     output:
         config["FINALPLOT"]
+    benchmark:
+        'benchmarks/summary.txt'
     log:
         'logs/summary.log'
     shell:
-        '/usr/bin/time -v src/summary.sh >& {log}'
+        'src/summary.sh >& {log}'
+
+rule summary_samegenes:
+    input:
+        config["ROUT_CELLRANGER"],
+        config["ROUT_ALEVIN"],
+        config["ROUT_ALEVIN_TENX"],
+        config["ROUT_ALEVIN_FILTERED"],
+        config["ROUT_KALLISTO"],
+        config["ROUT_KALLISTO_TENX"],
+        config["ROUT_KALLISTO_FILTERED"],
+        config["RPKG1"],
+        config["RPKG2"],
+        config["RPKG3"],
+        config["RPKG4"],
+        config["RPKG5"],
+        config["RPKG6"],
+        config["RPKG7"],
+        config["RPKG8"],
+        config["RPKG9"]
+    output:
+        config["FINALPLOT2"]
+    benchmark:
+        'benchmarks/summary_samegenes.txt'
+    log:
+        'logs/summary_samegenes.log'
+    shell:
+        'src/summary_samegenes.sh >& {log}'
 
 #
 # Time
 #
-rule summary_time:
-    input:
-        'logs/cellranger.log',
-        'logs/salmon_index.log',
-        'logs/alevin.log',
-        'logs/alevin_10xwhitelist.log',
-        'logs/alevin_filteredwhitelist.log',
-        'logs/kallisto_index.log',
-        'logs/kb.log',
-        'logs/kb_10xwhitelist.log',
-        'logs/kb_filteredwhitelist.log'
-    output:
-        config["OUT_TIME"]
-    log:
-        'logs/summary_time.log'
-    shell:
-        '/usr/bin/time -v src/summary_time.sh >& {log}'
-
 rule plot_time:
     input:
-        config["OUT_TIME"]
+        config["ROUT_CELLRANGER"],
+        config["ROUT_ALEVIN"],
+        config["ROUT_ALEVIN_TENX"],
+        config["ROUT_ALEVIN_FILTERED"],
+        config["ROUT_KALLISTO"],
+        config["ROUT_KALLISTO_TENX"],
+        config["ROUT_KALLISTO_FILTERED"],
+        config["RPKG1"],
+        config["RPKG2"],
+        config["RPKG3"],
+        config["RPKG4"],
+        config["RPKG5"],
+        config["RPKG6"],
+        config["RPKG7"],
+        config["RPKG8"],
+        config["RPKG9"],
+        'benchmarks/cellranger.txt',
+        'benchmarks/salmon_index.txt',
+        'benchmarks/alevin.txt',
+        'benchmarks/alevin_10xwhitelist.txt',
+        'benchmarks/alevin_filteredwhitelist.txt',
+        'benchmarks/kallisto_index.txt',
+        'benchmarks/kb.txt',
+        'benchmarks/kb_10xwhitelist.txt',
+        'benchmarks/kb_filteredwhitelist.txt'
     output:
         config["TIMEPLOT"]
+    benchmark:
+        'benchmarks/plot_time.txt'
     log:
         'logs/plot_time.log'
     shell:
-        '/usr/bin/time -v src/plot_time.sh >& {log}'
+        'src/plot_time.sh >& {log}'
 
 #
 # Memory
 #
-rule summary_memory:
-    input:
-        'logs/cellranger.log',
-        'logs/salmon_index.log',
-        'logs/alevin.log',
-        'logs/alevin_10xwhitelist.log',
-        'logs/alevin_filteredwhitelist.log',
-        'logs/kallisto_index.log',
-        'logs/kb.log',
-        'logs/kb_10xwhitelist.log',
-        'logs/kb_filteredwhitelist.log'
-    output:
-        config["OUT_MEMORY"]
-    log:
-        'logs/summary_memory.log'
-    shell:
-        '/usr/bin/time -v src/summary_memory.sh >& {log}'
-
 rule plot_memory:
     input:
-        config["OUT_MEMORY"]
+        config["ROUT_CELLRANGER"],
+        config["ROUT_ALEVIN"],
+        config["ROUT_ALEVIN_TENX"],
+        config["ROUT_ALEVIN_FILTERED"],
+        config["ROUT_KALLISTO"],
+        config["ROUT_KALLISTO_TENX"],
+        config["ROUT_KALLISTO_FILTERED"],
+        config["RPKG1"],
+        config["RPKG2"],
+        config["RPKG3"],
+        config["RPKG4"],
+        config["RPKG5"],
+        config["RPKG6"],
+        config["RPKG7"],
+        config["RPKG8"],
+        config["RPKG9"],
+        'benchmarks/cellranger.txt',
+        'benchmarks/salmon_index.txt',
+        'benchmarks/alevin.txt',
+        'benchmarks/alevin_10xwhitelist.txt',
+        'benchmarks/alevin_filteredwhitelist.txt',
+        'benchmarks/kallisto_index.txt',
+        'benchmarks/kb.txt',
+        'benchmarks/kb_10xwhitelist.txt',
+        'benchmarks/kb_filteredwhitelist.txt'
     output:
         config["MEMORYPLOT"]
+    benchmark:
+        'benchmarks/plot_memory.txt'
     log:
         'logs/plot_memory.log'
     shell:
-        '/usr/bin/time -v src/plot_memory.sh >& {log}'
+        'src/plot_memory.sh >& {log}'
+
+rule clean:
+    shell:
+        'rm -rf data && '
+        'rm -rf output && '
+        'rm -rf plot && '
+        'rm -rf logs && '
+        'rm -rf benchmarks && '
+        'rm -rf tools && '
+        'rm -rf *.out && '
+        'rm -rf *.simg'

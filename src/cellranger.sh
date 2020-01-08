@@ -8,8 +8,6 @@
 #SBATCH --requeue
 #SBATCH -p node03-06
 
-export PATH=./tools/cellranger/cellranger-3.1.0:$PATH
-
 cellranger count \
 --id=5k_pbmc \
 --transcriptome=./data/refdata-cellranger-GRCh38-3.0.0 \

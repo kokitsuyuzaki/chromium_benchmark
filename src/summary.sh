@@ -9,3 +9,8 @@
 #SBATCH -p node03-06
 
 /home/koki/Software/R-3.6.0/bin/Rscript src/summary.R
+
+file="plot/DetectedGenes_Common_CCB.png"
+if [ -e $file ]; then
+  touch $file
+fi

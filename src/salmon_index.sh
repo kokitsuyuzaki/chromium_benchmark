@@ -8,6 +8,10 @@
 #SBATCH --requeue
 #SBATCH -p node03-06
 
-tools/alevin/salmon-latest_linux_x86_64/bin/salmon \
-index -i data/salmon_index -k 31 --gencode -p 4 \
+salmon index -i data/salmon_index -k 31 --gencode -p 4 \
 -t data/gencode.v32.pc_transcripts.fa.gz
+
+file="data/salmon_index/mphf.bin"
+if [ -e $file ]; then
+  touch $file
+fi

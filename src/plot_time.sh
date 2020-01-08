@@ -9,3 +9,8 @@
 #SBATCH -p node03-06
 
 /home/koki/Software/R-3.6.0/bin/Rscript src/plot_time.R
+
+file="plot/Time.png"
+if [ -e $file ]; then
+  touch $file
+fi

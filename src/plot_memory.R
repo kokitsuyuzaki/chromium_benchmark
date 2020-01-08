@@ -1,9 +1,37 @@
 library("ggplot2")
 
-memory <- read.table("output/memory.txt", header=FALSE, stringsAsFactor=FALSE)
-memory <- cbind(memory, seq(nrow(memory)))
-colnames(memory) <- c("Command", "GB", "order")
-memory$GB <- memory$GB / 10^6
+commandnames <- c(
+	"CellRanger",
+	"Salmon_index",
+	"Alevin",
+	"alevin_10X_whitelist",
+	"Alevin_filtered_whitelist",
+	"Kallisto_index",
+	"Kallisto_Bustools",
+	"Kallisto_Bustools_10X_whitelist",
+	"Kallisto_Bustools_filtered_whitelist")
+
+filenames <- c(
+	"benchmarks/cellranger.txt",
+	"benchmarks/salmon_index.txt",
+	"benchmarks/alevin.txt",
+	"benchmarks/alevin_10xwhitelist.txt",
+	"benchmarks/alevin_filteredwhitelist.txt",
+	"benchmarks/kallisto_index.txt",
+	"benchmarks/kb.txt",
+	"benchmarks/kb_10xwhitelist.txt",
+	"benchmarks/kb_filteredwhitelist.txt")
+
+memory <- c()
+for(i in 1:length(filenames)){
+	memory <- c(memory, read.table(filenames[i], header=TRUE, stringsAsFactor=FALSE)[,3])
+}
+memory <- data.frame(
+	Command=commandnames,
+	GB=memory,
+	order=seq(memory)
+)
+memory$GB <- memory$GB / 10^3
 
 g <- ggplot(memory, aes(x=reorder(Command, order), y=GB, fill=reorder(Command, order)))
 g <- g + geom_bar(stat="identity")

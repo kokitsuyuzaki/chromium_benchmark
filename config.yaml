@@ -1,6 +1,4 @@
 # Data and Tools
-CELLRANGER: 'tools/cellranger/cellranger-3.1.0/cellranger'
-SALMON: 'tools/alevin/salmon-latest_linux_x86_64/bin/salmon'
 KB: '/home/koki/.pyenv/shims/kb'
 GENOME: 'data/refdata-cellranger-GRCh38-3.0.0/fasta/genome.fa'
 TRANSCRIPTOME: 'data/gencode.v32.pc_transcripts.fa.gz'
@@ -15,6 +13,7 @@ RPKG5: /home/koki/Software/R-3.6.0/library/BUSpaRse/DESCRIPTION
 RPKG6: /home/koki/Software/R-3.6.0/library/fishpond/DESCRIPTION
 RPKG7: /home/koki/Software/R-3.6.0/library/DropletUtils/DESCRIPTION
 RPKG8: /home/koki/Software/R-3.6.0/library/ggplot2/DESCRIPTION
+RPKG9: /home/koki/Software/R-3.6.0/library/Homo.sapiens/DESCRIPTION
 
 # White list
 TENX_WHITELIST: 'data/10xv3_whitelist.txt'
@@ -45,13 +44,8 @@ ROUT_KALLISTO: 'output/kb/kb.RData'
 ROUT_KALLISTO_TENX: 'output/kb_10xwhitelist/kb_10xwhitelist.RData'
 ROUT_KALLISTO_FILTERED: 'output/kb_filteredwhitelist/kb_filteredwhitelist.RData'
 
-# Time
-OUT_TIME: 'output/time.txt'
-
-# Memory
-OUT_MEMORY: 'output/memory.txt'
-
 # PLOT
 FINALPLOT: 'plot/DetectedGenes_Common_CCB.png'
+FINALPLOT2: 'plot/CommonGenes/DetectedGenes_Common_CCB.png'
 TIMEPLOT: 'plot/Time.png'
 MEMORYPLOT: 'plot/Memory.png'

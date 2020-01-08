@@ -2,45 +2,47 @@
 Comparison of 10X Chromium, Alevin, and Kallisto | Bustools
 
 # Requirements
-- Snakemake (>= XX)
-- pip3 (>= XX)
-- Graphviz (>= XX)
+- Python (>= 3.6.4)
+- Snakemake (>= 5.8.1)
+- pip3 (>= 19.3.1)
+- Graphviz (>= 2.30.1)
 - R/Rscript (>= 3.6.0)
-- wget (>= XX)
-- tar (>= XX)
-- gunzip (>= XX)
+- GNU wget (>= 1.14)
+- GNU tar (>= 1.26)
+- GNU gunzip (>= 1.5)
 - GNU time (>=1.7)
+- Singularity (>= XXXXX)
 
 # How to reproduce this workflow
 
 In local machine environment, type as follows:
 
 ```
-snakemake
+snakemake --use-singularity
 ```
 
 In Grid Engine environment, type as follows:
 
 ```
-snakemake --latency-wait 20 -j 32 --cluster qsub
+snakemake --use-singularity --latency-wait 30 -j 32 --cluster qsub
 ```
 
 In Slurm environment, type as follows:
 
 ```
-snakemake --latency-wait 20 -j 32 --cluster sbatch
+snakemake --use-singularity --latency-wait 30 -j 32 --cluster sbatch
 ```
 
 To reproduce the DAG figure file, type as follows:
 
 ```
-snakemake --dag | dot -Tsvg > dag.svg
+snakemake --use-singularity --dag | dot -Tsvg > dag.svg
 ```
 
 To reproduce the HTML report, type as follows:
 
 ```
-snakemake --report report.html
+snakemake --use-singularity --report report.html
 ```
 
 # Reference

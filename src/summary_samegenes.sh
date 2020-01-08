@@ -8,9 +8,9 @@
 #SBATCH --requeue
 #SBATCH -p node03-06
 
-/home/koki/Software/R-3.6.0/bin/Rscript src/plot_memory.R
+/home/koki/Software/R-3.6.0/bin/Rscript src/summary_samegenes.R
 
-file="plot/Memory.png"
+file="plot/CommonGenes/DetectedGenes_Common_CCB.png"
 if [ -e $file ]; then
   touch $file
 fi
