@@ -1,19 +1,9 @@
 # Data and Tools
-KB: '/home/koki/.pyenv/shims/kb'
 GENOME: 'data/refdata-cellranger-GRCh38-3.0.0/fasta/genome.fa'
 TRANSCRIPTOME: 'data/gencode.v32.pc_transcripts.fa.gz'
 ANNOTATION: 'data/gencode.v32.primary_assembly.annotation.gtf.gz'
 FASTQ: 'data/5k_pbmc_protein_v3_fastqs/5k_pbmc_protein_v3_gex_fastqs/5k_pbmc_protein_v3_gex_S1_L001_R1_001.fastq.gz'
 T2G_ALEVIN: 'data/txp2gene.tsv'
-RPKG1: /home/koki/Software/R-3.6.0/library/BiocManager/DESCRIPTION
-RPKG2: /home/koki/Software/R-3.6.0/library/Seurat/DESCRIPTION
-RPKG3: /home/koki/Software/R-3.6.0/library/VennDiagram/DESCRIPTION
-RPKG4: /home/koki/Software/R-3.6.0/library/tximport/DESCRIPTION
-RPKG5: /home/koki/Software/R-3.6.0/library/BUSpaRse/DESCRIPTION
-RPKG6: /home/koki/Software/R-3.6.0/library/fishpond/DESCRIPTION
-RPKG7: /home/koki/Software/R-3.6.0/library/DropletUtils/DESCRIPTION
-RPKG8: /home/koki/Software/R-3.6.0/library/ggplot2/DESCRIPTION
-RPKG9: /home/koki/Software/R-3.6.0/library/Homo.sapiens/DESCRIPTION
 
 # White list
 TENX_WHITELIST: 'data/10xv3_whitelist.txt'

@@ -5,8 +5,10 @@
 #$ -q node.q
 
 #SBATCH -n 4
+#SBATCH --nice 50
 #SBATCH --requeue
 #SBATCH -p node03-06
+SLURM_RESTART_COUNT=2
 
 gunzip -c output/cellranger/5k_pbmc/outs/filtered_feature_bc_matrix/barcodes.tsv.gz | sed -e "s|-1||g" > data/filteredwhitelist.txt
 

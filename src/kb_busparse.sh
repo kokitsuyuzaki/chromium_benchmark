@@ -5,10 +5,12 @@
 #$ -q node.q
 
 #SBATCH -n 4
+#SBATCH --nice 50
 #SBATCH --requeue
 #SBATCH -p node03-06
+SLURM_RESTART_COUNT=2
 
-/home/koki/Software/R-3.6.0/bin/Rscript src/kb_busparse.R
+Rscript src/kb_busparse.R
 
 file="output/kb/kb.RData"
 if [ -e $file ]; then

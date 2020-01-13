@@ -5,10 +5,12 @@
 #$ -q node.q
 
 #SBATCH -n 4
+#SBATCH --nice 50
 #SBATCH --requeue
 #SBATCH -p node03-06
+SLURM_RESTART_COUNT=2
 
-/home/koki/Software/R-3.6.0/bin/Rscript src/plot_memory.R
+Rscript src/plot_memory.R
 
 file="plot/Memory.png"
 if [ -e $file ]; then

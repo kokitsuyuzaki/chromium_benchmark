@@ -5,8 +5,10 @@
 #$ -q node.q
 
 #SBATCH -n 4
+#SBATCH --nice 50
 #SBATCH --requeue
 #SBATCH -p node03-06
+SLURM_RESTART_COUNT=2
 
 salmon alevin -l ISR \
 -1 data/5k_pbmc_protein_v3_fastqs/5k_pbmc_protein_v3_gex_fastqs/5k_pbmc_protein_v3_gex_S1_L001_R1_001.fastq.gz \

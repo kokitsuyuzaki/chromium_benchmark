@@ -5,8 +5,10 @@
 #$ -q node.q
 
 #SBATCH -n 4
+#SBATCH --nice 50
 #SBATCH --requeue
 #SBATCH -p node03-06
+SLURM_RESTART_COUNT=2
 
 # Reference Genome
 wget -P data http://cf.10xgenomics.com/supp/cell-exp/refdata-cellranger-GRCh38-3.0.0.tar.gz

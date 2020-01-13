@@ -25,35 +25,6 @@ rule tenxwhitelist:
     shell:
         'src/tenxwhitelist.sh >& {log}'
 
-rule install_kb:
-    output:
-        config["KB"]
-    benchmark:
-        'benchmarks/install_kb.txt'
-    log:
-        'logs/install_kb.log'
-    shell:
-        'src/install_kb.sh >& {log}'
-
-rule install_Rpkg:
-    output:
-        config["RPKG1"],
-        config["RPKG2"],
-        config["RPKG3"],
-        config["RPKG4"],
-        config["RPKG5"],
-        config["RPKG6"],
-        config["RPKG7"],
-        config["RPKG8"],
-        config["RPKG9"]
-
-    benchmark:
-        'benchmarks/install_Rpkg.txt'
-    log:
-        'logs/install_Rpkg.log'
-    shell:
-        'src/install_Rpkg.sh >& {log}'
-
 rule download_genome:
     output:
         config["GENOME"]
@@ -132,13 +103,16 @@ rule cellranger_seurat:
         config["OUT_CELLRANGER"]
     output:
         config["ROUT_CELLRANGER"]
+    singularity:
+        "docker://conda/miniconda3:latest"
+    conda:
+        'envs/r.yaml'
     benchmark:
         'benchmarks/cellranger_seurat.txt'
     log:
         'logs/cellranger_seurat.log'
     shell:
         'src/cellranger_seurat.sh >& {log}'
-
 
 #
 # Workflow type II: Alevin → Tximport
@@ -216,20 +190,15 @@ rule alevin_tximport:
     input:
         config["OUT_ALEVIN"],
         config["OUT_ALEVIN_10X"],
-        config["OUT_ALEVIN_FILTERED"],
-        config["RPKG1"],
-        config["RPKG2"],
-        config["RPKG3"],
-        config["RPKG4"],
-        config["RPKG5"],
-        config["RPKG6"],
-        config["RPKG7"],
-        config["RPKG8"],
-        config["RPKG9"]
+        config["OUT_ALEVIN_FILTERED"]
     output:
         config["ROUT_ALEVIN"],
         config["ROUT_ALEVIN_TENX"],
         config["ROUT_ALEVIN_FILTERED"]
+    singularity:
+        "docker://conda/miniconda3:latest"
+    conda:
+        'envs/r.yaml'
     benchmark:
         'benchmarks/alevin_tximport.txt'
     log:
@@ -243,12 +212,12 @@ rule alevin_tximport:
 #
 
 rule kallisto_index:
-    input:
-        config["KB"]
     output:
         config["KALLISTO_INDEX"],
         config["T2G_KALLISTO"],
         'benchmarks/kallisto_index.txt'
+    singularity:
+        'docker://koki/kb_python:0.24.4'
     benchmark:
         'benchmarks/kallisto_index.txt'
     log:
@@ -264,6 +233,8 @@ rule kb:
     output:
         config["OUT_KALLISTO"],
         'benchmarks/kb.txt'
+    singularity:
+        'docker://koki/kb_python:0.24.4'
     benchmark:
         'benchmarks/kb.txt'
     log:
@@ -280,6 +251,8 @@ rule kb_10xwhitelist:
     output:
         config["OUT_KALLISTO_TENX"],
         'benchmarks/kb_10xwhitelist.txt'
+    singularity:
+        'docker://koki/kb_python:0.24.4'
     benchmark:
         'benchmarks/kb_10xwhitelist.txt'
     log:
@@ -296,6 +269,8 @@ rule kb_filteredwhitelist:
     output:
         config["OUT_KALLISTO_FILTERED"],
         'benchmarks/kb_filteredwhitelist.txt'
+    singularity:
+        'docker://koki/kb_python:0.24.4'
     benchmark:
         'benchmarks/kb_filteredwhitelist.txt'
     log:
@@ -307,20 +282,15 @@ rule kb_busparse:
     input:
         config["OUT_KALLISTO"],
         config["OUT_KALLISTO_TENX"],
-        config["OUT_KALLISTO_FILTERED"],
-        config["RPKG1"],
-        config["RPKG2"],
-        config["RPKG3"],
-        config["RPKG4"],
-        config["RPKG5"],
-        config["RPKG6"],
-        config["RPKG7"],
-        config["RPKG8"],
-        config["RPKG9"]
+        config["OUT_KALLISTO_FILTERED"]
     output:
         config["ROUT_KALLISTO"],
         config["ROUT_KALLISTO_TENX"],
         config["ROUT_KALLISTO_FILTERED"]
+    singularity:
+        "docker://conda/miniconda3:latest"
+    conda:
+        'envs/r.yaml'
     benchmark:
         'benchmarks/kb_busparse.txt'
     log:
@@ -340,17 +310,13 @@ rule summary:
         config["ROUT_ALEVIN_FILTERED"],
         config["ROUT_KALLISTO"],
         config["ROUT_KALLISTO_TENX"],
-        config["ROUT_KALLISTO_FILTERED"],
-        config["RPKG1"],
-        config["RPKG2"],
-        config["RPKG3"],
-        config["RPKG4"],
-        config["RPKG5"],
-        config["RPKG6"],
-        config["RPKG8"],
-        config["RPKG9"]
+        config["ROUT_KALLISTO_FILTERED"]
     output:
         config["FINALPLOT"]
+    singularity:
+        "docker://conda/miniconda3:latest"
+    conda:
+        'envs/r.yaml'
     benchmark:
         'benchmarks/summary.txt'
     log:
@@ -366,18 +332,13 @@ rule summary_samegenes:
         config["ROUT_ALEVIN_FILTERED"],
         config["ROUT_KALLISTO"],
         config["ROUT_KALLISTO_TENX"],
-        config["ROUT_KALLISTO_FILTERED"],
-        config["RPKG1"],
-        config["RPKG2"],
-        config["RPKG3"],
-        config["RPKG4"],
-        config["RPKG5"],
-        config["RPKG6"],
-        config["RPKG7"],
-        config["RPKG8"],
-        config["RPKG9"]
+        config["ROUT_KALLISTO_FILTERED"]
     output:
         config["FINALPLOT2"]
+    singularity:
+        "docker://conda/miniconda3:latest"
+    conda:
+        'envs/r.yaml'
     benchmark:
         'benchmarks/summary_samegenes.txt'
     log:
@@ -397,15 +358,6 @@ rule plot_time:
         config["ROUT_KALLISTO"],
         config["ROUT_KALLISTO_TENX"],
         config["ROUT_KALLISTO_FILTERED"],
-        config["RPKG1"],
-        config["RPKG2"],
-        config["RPKG3"],
-        config["RPKG4"],
-        config["RPKG5"],
-        config["RPKG6"],
-        config["RPKG7"],
-        config["RPKG8"],
-        config["RPKG9"],
         'benchmarks/cellranger.txt',
         'benchmarks/salmon_index.txt',
         'benchmarks/alevin.txt',
@@ -417,6 +369,10 @@ rule plot_time:
         'benchmarks/kb_filteredwhitelist.txt'
     output:
         config["TIMEPLOT"]
+    singularity:
+        "docker://conda/miniconda3:latest"
+    conda:
+        'envs/r.yaml'
     benchmark:
         'benchmarks/plot_time.txt'
     log:
@@ -436,15 +392,6 @@ rule plot_memory:
         config["ROUT_KALLISTO"],
         config["ROUT_KALLISTO_TENX"],
         config["ROUT_KALLISTO_FILTERED"],
-        config["RPKG1"],
-        config["RPKG2"],
-        config["RPKG3"],
-        config["RPKG4"],
-        config["RPKG5"],
-        config["RPKG6"],
-        config["RPKG7"],
-        config["RPKG8"],
-        config["RPKG9"],
         'benchmarks/cellranger.txt',
         'benchmarks/salmon_index.txt',
         'benchmarks/alevin.txt',
@@ -456,6 +403,10 @@ rule plot_memory:
         'benchmarks/kb_filteredwhitelist.txt'
     output:
         config["MEMORYPLOT"]
+    singularity:
+        "docker://conda/miniconda3:latest"
+    conda:
+        'envs/r.yaml'
     benchmark:
         'benchmarks/plot_memory.txt'
     log:
@@ -471,5 +422,12 @@ rule clean:
         'rm -rf logs && '
         'rm -rf benchmarks && '
         'rm -rf tools && '
+        'rm -rf tmp && '
+        'rm -rf *.sh.* && '
         'rm -rf *.out && '
-        'rm -rf *.simg'
+        'rm -rf core.* && '
+        'rm -rf *sh.* && '
+        'rm -rf *.simg && '
+        'rm -rf ._* && '
+        'rm -rf .conda && '
+        'rm -rf *.sif'
