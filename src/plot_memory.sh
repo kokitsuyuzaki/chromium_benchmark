@@ -12,7 +12,4 @@ SLURM_RESTART_COUNT=2
 
 Rscript src/plot_memory.R
 
-file="plot/Memory.png"
-if [ -e $file ]; then
-  touch $file
-fi
+touch -c plot/Memory.png

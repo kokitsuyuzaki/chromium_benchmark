@@ -12,7 +12,4 @@ SLURM_RESTART_COUNT=2
 
 Rscript src/plot_time.R
 
-file="plot/Time.png"
-if [ -e $file ]; then
-  touch $file
-fi
+touch -c plot/Time.png

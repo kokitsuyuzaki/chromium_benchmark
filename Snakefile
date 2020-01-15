@@ -426,7 +426,6 @@ rule clean:
         'rm -rf *.sh.* && '
         'rm -rf *.out && '
         'rm -rf core.* && '
-        'rm -rf *sh.* && '
         'rm -rf *.simg && '
         'rm -rf ._* && '
         'rm -rf .conda && '

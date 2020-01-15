@@ -12,12 +12,5 @@ SLURM_RESTART_COUNT=2
 
 kb ref -d human -i data/kallisto_index -g data/transcripts_to_genes.txt
 
-file="data/kallisto_index"
-if [ -e $file ]; then
-  touch $file
-fi
-
-file2="data/transcripts_to_genes.txt"
-if [ -e $file2 ]; then
-  touch $file2
-fi
+touch -c data/kallisto_index
+touch -c data/transcripts_to_genes.txt

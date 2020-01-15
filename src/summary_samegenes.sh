@@ -12,7 +12,4 @@ SLURM_RESTART_COUNT=2
 
 Rscript src/summary_samegenes.R
 
-file="plot/CommonGenes/DetectedGenes_Common_CCB.png"
-if [ -e $file ]; then
-  touch $file
-fi
+touch -c plot/CommonGenes/DetectedGenes_Common_CCB.png

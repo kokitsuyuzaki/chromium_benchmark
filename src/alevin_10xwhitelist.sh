@@ -19,7 +19,4 @@ data/5k_pbmc_protein_v3_fastqs/5k_pbmc_protein_v3_gex_fastqs/5k_pbmc_protein_v3_
 --chromiumV3 -i data/salmon_index \
 -p 4 -o output/alevin_10xwhitelist --tgMap data/txp2gene.tsv
 
-file="output/alevin_10xwhitelist/alevin/quants_mat.gz"
-if [ -e $file ]; then
-  touch $file
-fi
+touch -c output/alevin_10xwhitelist/alevin/quants_mat.gz

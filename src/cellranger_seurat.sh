@@ -12,7 +12,4 @@ SLURM_RESTART_COUNT=2
 
 Rscript src/seurat_cellranger.R
 
-file="output/cellranger/cellranger.RData"
-if [ -e $file ]; then
-  touch $file
-fi
+touch -c output/cellranger/cellranger.RData

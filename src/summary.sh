@@ -12,7 +12,4 @@ SLURM_RESTART_COUNT=2
 
 Rscript src/summary.R
 
-file="plot/DetectedGenes_Common_CCB.png"
-if [ -e $file ]; then
-  touch $file
-fi
+touch -c plot/DetectedGenes_Common_CCB.png
